@@ -1,0 +1,66 @@
+#I've replaced the mdi icons by entity pictures.
+#You can still use mdi deleting lines:
+#
+#show_entity_picture: true
+#entity_picture: >-
+#  [[[ if (states['switch.termoacumulador_suite'].state == "on") return
+#  "/local/icon/boiler.png"; else return "/local/icon/boiler_off.png" ]]]
+#
+#
+#1. Create a manual or a custom-button card;
+#2. Copy the code;
+#3. Replace your switch entity;
+#4. Replace your sensor entity;
+#5. Done
+#
+#Tip: Adapt the font-size (power value) to the size of your card.
+
+
+type: custom:button-card
+show_entity_picture: true
+entity_picture: >-
+  [[[ if (states['switch.termoacumulador_suite'].state == "on") return
+  "/local/icon/boiler.png"; else return "/local/icon/boiler_off.png" ]]]
+tap_action:
+  action: toggle
+entity: switch.termoacumulador_suite
+show_state: false
+show_name: true
+name: T.Acum. Suíte
+styles:
+  grid:
+    - position: relative
+  custom_fields:
+    notification:
+      - position: absolute
+      - left: 75%
+      - top: 5%
+      - color: yellow
+      - font-size: 20px
+      - filter: |
+          [[[
+            if (states['switch.termoacumulador_suite'].state == 'off' )
+              return 'opacity(0%)';
+            return 'opacity(100%)';
+          ]]]
+  card:
+    - background-color: transparent
+custom_fields:
+  notification: >
+    [[[ return (states['sensor.termoacumulador_suite_instantaneo'].state) +'w'
+    ]]]
+state:
+  - value: 'on'
+    styles:
+      card:
+        - filter: opacity(100%)
+        - box-shadow: 0px 0px 3px 1px var(--button-card-light-color)
+        - background-image: linear-gradient(rgba(255,255,102,0.2) 0%, rgba(255,255,102,0) 70%)
+  - value: 'off'
+    styles:
+      card:
+        - border: 0.5px solid grey
+        - box-shadow: 1px 1px 0px 0px var(--button-card-light-color)
+
+
+
